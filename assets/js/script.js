@@ -22,12 +22,13 @@ var getDirections = function (startLocation, endLocation, bingKey) {
             // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
-                    directionsList = (data['resourceSets'][0]['resources'][0]['routeLegs'][0]['itineraryItems'])
+                    var directionsList = (data['resourceSets'][0]['resources'][0]['routeLegs'][0]['itineraryItems'])
+
                     for (i = 0; i < directionsList.length; i++) {
                         directionArray.push(directionsList[i]['instruction']['text'])
 
                     }
-                    console.log(directionArray)
+                    //console.log(directionArray)
                     for (var i = 0; i < directionArray.length; i++) {
                         var listItemEl = document.createElement("li");
                         listItemEl.textContent = directionArray[i];
@@ -47,20 +48,52 @@ var getDirections = function (startLocation, endLocation, bingKey) {
 
 
 
-var findVenues = function (latLong, tmKey, radius) {
-    var tmUrl = "https://app.ticketmaster.com/discovery/v2/venues.json?latlong=" + latLong +
-        "&radius=" + radius + "&startDateTime=" + now + "&endDateTime+" + futureDate + "&apikey=" + tmKey;
+var findEvents = function (latLong, tmKey, radius) {
+    var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=199&classificationName=music&latlong=" + latLong +
+        "&radius=" + radius + "&apikey=" + tmKey;
     console.log(tmUrl)
+    var eventObjList = [];
+
+
 
     fetch(tmUrl)
         .then(function (response) {
-            // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data)
-                    console.log(data['_embedded']['venues'])
-                })
+                    eventInfo = data['_embedded']['events'];
+                    for (var i = 0; i < eventInfo.length; i++) {
+                        var eventObj = {
+                            'name': eventInfo[i]['name'],
+                            'date': eventInfo[i]['dates']['start']['localDate'],
+                            'url': eventInfo[i]['url'],
+                            'address': eventInfo[i]['_embedded']['venues'][0]['address']['line1'] + ' ' +
+                                eventInfo[i]['_embedded']['venues'][0]['name']['city'] + ' ' +
+                                eventInfo[i]['_embedded']['venues'][0]['state']['stateCode']
 
+                        }
+                        eventObjList.push(eventObj)
+
+                    }
+                    console.log(eventObjList)
+
+
+
+
+
+
+
+                    var nextPage = (data['_links']['next']['href'])
+                    var linkEl = document.createElement("a");
+                    linkEl.textContent = "next page"
+                    linkEl.href = nextPage
+                    directionsEl.appendChild(linkEl)
+
+
+
+
+
+                })
             } else {
                 alert("Error: " + response.statusText);
             }
@@ -70,5 +103,7 @@ var findVenues = function (latLong, tmKey, radius) {
         });
 }
 
+
+
 getDirections(startLocation, endLocation, bingKey)
-// findVenues(latLong, tmKey, radius)
+findEvents(latLong, tmKey, radius)
