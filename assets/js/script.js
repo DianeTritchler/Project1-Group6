@@ -1,5 +1,5 @@
 
-var startLocation = "austin,tx";
+var startLocation = "ergszdr5363463456";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
@@ -33,7 +33,9 @@ var getDirections = function (startLocation, endLocation, bingKey) {
         });
 };
 
-var findEvents = function (latLong, tmKey, radius) {
+
+
+var findVenues = function (latLong, tmKey, radius) {
     var tmUrl = "https://app.ticketmaster.com/discovery/v2/venues.json?latlong=" + latLong +
         "&radius=" + radius + "&startDateTime=" + now + "&endDateTime+" + futureDate + "&apikey=" + tmKey;
     console.log(tmUrl)
@@ -56,5 +58,5 @@ var findEvents = function (latLong, tmKey, radius) {
         });
 }
 
-//getDirections(startLocation, endLocation, bingKey)
-findEvents(latLong, tmKey, radius)
+getDirections(startLocation, endLocation, bingKey)
+findVenues(latLong, tmKey, radius)
