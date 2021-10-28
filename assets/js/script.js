@@ -1,5 +1,5 @@
 
-var startLocation = "ergszdr5363463456";
+var startLocation = "austin,tx";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
@@ -8,9 +8,11 @@ var now = moment().format();
 var futureDate = moment().add(10, "day").format();
 var latLong = "30.2672,-97.7431";
 var radius = 10;
+var directionsEl = document.querySelector("#directions-section")
 
 var getDirections = function (startLocation, endLocation, bingKey) {
     // format the bing api url
+    var directionArray = [];
     var bingUrl = "http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=" + startLocation + "&waypoint.2=" + endLocation +
         "&key=" + bingKey;
 
@@ -20,8 +22,18 @@ var getDirections = function (startLocation, endLocation, bingKey) {
             // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data)
-                    console.log(data['resourceSets'][0]['resources'][0])
+                    directionsList = (data['resourceSets'][0]['resources'][0]['routeLegs'][0]['itineraryItems'])
+                    for (i = 0; i < directionsList.length; i++) {
+                        directionArray.push(directionsList[i]['instruction']['text'])
+
+                    }
+                    console.log(directionArray)
+                    for (var i = 0; i < directionArray.length; i++) {
+                        var listItemEl = document.createElement("li");
+                        listItemEl.textContent = directionArray[i];
+                        directionsEl.appendChild(listItemEl);
+
+                    }
                 })
 
             } else {
@@ -59,4 +71,4 @@ var findVenues = function (latLong, tmKey, radius) {
 }
 
 getDirections(startLocation, endLocation, bingKey)
-findVenues(latLong, tmKey, radius)
+// findVenues(latLong, tmKey, radius)
