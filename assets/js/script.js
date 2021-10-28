@@ -1,5 +1,5 @@
 
-var startLocation = "ergszdr5363463456";
+var startLocation = "austin, tx";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
@@ -8,6 +8,10 @@ var now = moment().format();
 var futureDate = moment().add(10, "day").format();
 var latLong = "30.2672,-97.7431";
 var radius = 10;
+var today = new Date(); 
+
+document.getElementById("start").setAttribute("value",moment(today).format("YYYY-MM-DD"));
+document.getElementById("end").setAttribute("value",moment(today).format("YYYY-MM-DD"));
 
 var getDirections = function (startLocation, endLocation, bingKey) {
     // format the bing api url
