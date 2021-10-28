@@ -49,13 +49,9 @@ var getDirections = function (startLocation, endLocation, bingKey) {
 
 
 var findEvents = function (latLong, tmKey, radius) {
-    var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=199&classificationName=music&latlong=" + latLong +
+    var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
         "&radius=" + radius + "&apikey=" + tmKey;
-    console.log(tmUrl)
     var eventObjList = [];
-
-
-
     fetch(tmUrl)
         .then(function (response) {
             if (response.ok) {
@@ -68,31 +64,13 @@ var findEvents = function (latLong, tmKey, radius) {
                             'date': eventInfo[i]['dates']['start']['localDate'],
                             'url': eventInfo[i]['url'],
                             'address': eventInfo[i]['_embedded']['venues'][0]['address']['line1'] + ' ' +
-                                eventInfo[i]['_embedded']['venues'][0]['name']['city'] + ' ' +
+                                eventInfo[i]['_embedded']['venues'][0]['city']['name'] + ' ' +
                                 eventInfo[i]['_embedded']['venues'][0]['state']['stateCode']
 
                         }
                         eventObjList.push(eventObj)
-
                     }
                     console.log(eventObjList)
-
-
-
-
-
-
-
-                    var nextPage = (data['_links']['next']['href'])
-                    var linkEl = document.createElement("a");
-                    linkEl.textContent = "next page"
-                    linkEl.href = nextPage
-                    directionsEl.appendChild(linkEl)
-
-
-
-
-
                 })
             } else {
                 alert("Error: " + response.statusText);
