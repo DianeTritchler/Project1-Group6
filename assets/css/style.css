@@ -1,0 +1,17 @@
+
+.is-fullheight-100vh{
+    height: 100vh;
+}
+
+footer{
+    background-color: gray;
+    color: wheat;
+    padding-bottom: 0;
+}
+
+.column{
+    margin-top: 0rem;
+    margin-left: .3rem;
+    margin-right: .3rem;
+    margin-bottom: -0.75rem;
+}
