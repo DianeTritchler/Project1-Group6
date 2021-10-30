@@ -1,5 +1,6 @@
 
 
+
 //Variables
 //Diane - Changed start/end Date names, Added eventType
 var startLocation = "San Antonio, TX";
@@ -11,6 +12,10 @@ var startDate = moment().format();
 var endDate = moment().add(10, "day").format();
 var latLong = "30.2672,-97.7431";
 var radius = 10;
+var today = new Date(); 
+
+document.getElementById("start").setAttribute("value",moment(today).format("YYYY-MM-DD"));
+document.getElementById("end").setAttribute("value",moment(today).format("YYYY-MM-DD"));
 var directionsEl = document.querySelector("#directions-section")
 var unitOfMesurment = "mi";
 var eventType = "Music";
@@ -51,7 +56,6 @@ submitButton.addEventListener("click",function(event){
     //Calls findEvents
     findEvents(latLong, tmKey, radius);
 });
-
 
 
 var getDirections = function (startLocation, endLocation, bingKey) {
