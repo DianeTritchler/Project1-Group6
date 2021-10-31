@@ -3,22 +3,22 @@
 
 //Variables
 //Diane - Changed start/end Date names, Added eventType
-var startLocation = "San Antonio, TX";
+var startLocation = "SanAntonio,TX";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
 var postalCode = "11217";
-var startDate = moment().format();
-var endDate = moment().add(10, "day").format();
 var latLong = "30.2672,-97.7431";
-var radius = 10;
 var today = new Date(); 
 
+//Set the Form Date to Today Date
 document.getElementById("start").setAttribute("value",moment(today).format("YYYY-MM-DD"));
 document.getElementById("end").setAttribute("value",moment(today).format("YYYY-MM-DD"));
-var directionsEl = document.querySelector("#directions-section")
-var unitOfMesurment = "mi";
+
+var directionsEl = document.querySelector("#directions-section");
 var eventType = "Music";
+
+
 
 //Form Input/Button
 //Diane - Need to make sure these ID's match HTML
@@ -33,29 +33,56 @@ var endDateInput = document.querySelector("#end");
 //var eventTypeInput = document.querySelector("#event-type"); //DONT SEE THIS ON THE FORM
 
 
+
 //Form Event Listener - Saves user input
 submitButton.addEventListener("click",function(event){
     event.preventDefault();
     
     //Saves user input into locat & global variables
-    var streetAdress = streetAddressInput.value;
+    var streetAddress = streetAddressInput.value;
     var city = cityInput.vaule;
     var state = stateInput.value;
-    radius = radiusInput.value; 
-    //unitOfMesurment = unitInput.value; //Dont need? we are in the USA
-    startDate = startDateInput.value;
-    endDate = endDateInput.value;
+    var radius = radiusInput.value; 
+    //var unitOfMesurment = unitInput.value; //Dont need? we are in the USA
+    var startDate = startDateInput.value;
+    var endDate = endDateInput.value;
     //eventType = eventTypeInput.value; //DONT SEE MATCHING ITEM ON FORM
 
     //Forms Start locations based on user input
-    startLocation = streetAdress + ", " + city + ", " + state;
+    startLocation = streetAddress + ", " + city + ", "+ state;
+    console.log("start locatio "+ startLocation);
+
+    //Converts Starting Location to API Readable format
+    var startURL = startLocation.replace(/ /g, '%20');
 
     //Converts Address to latitude & longitude
-    
+    var positionStackKey = "5a8b007419bd2956c0662898bcf2606b"
+    var positionStackURL = "http://api.positionstack.com/v1/forward?access_key=" + positionStackKey + "&query=" + startURL;
+
+    fetch(positionStackURL)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    latLong =  data['data'][0]['latitude'] + "," + data['data'][0]['longitude'];
+                    
+                })
+
+            } else {
+                alert("Error: " + response.statusText);
+            }
+        })
+        .catch(function (error) {
+            alert("Unable to connect to latlong API");
+        });
 
     //Calls findEvents
     findEvents(latLong, tmKey, radius);
 });
+
+
+
+
+
 
 
 var getDirections = function (startLocation, endLocation, bingKey) {
@@ -63,6 +90,7 @@ var getDirections = function (startLocation, endLocation, bingKey) {
     var directionArray = [];
     var bingUrl = "http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=" + startLocation + "&waypoint.2=" + endLocation +
         "&key=" + bingKey;
+
 
     // make a get request to url
     fetch(bingUrl)
@@ -76,7 +104,7 @@ var getDirections = function (startLocation, endLocation, bingKey) {
                         directionArray.push(directionsList[i]['instruction']['text'])
 
                     }
-                    //console.log(directionArray)
+                    
                     for (var i = 0; i < directionArray.length; i++) {
                         var listItemEl = document.createElement("li");
                         listItemEl.textContent = directionArray[i];
@@ -102,16 +130,11 @@ var findEvents = function (latLong, tmKey, radius) {
         "&radius=" + radius + "&apikey=" + tmKey;
     var eventObjList = [];
 
- 
-
-    console.log(tmUrl)
-
 
     fetch(tmUrl)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data)
                     eventInfo = data['_embedded']['events'];
                     for (var i = 0; i < eventInfo.length; i++) {
                         var eventObj = {
@@ -125,7 +148,7 @@ var findEvents = function (latLong, tmKey, radius) {
                         }
                         eventObjList.push(eventObj)
                     }
-                    console.log(eventObjList)
+                    
                 })
             } else {
                 alert("Error: " + response.statusText);
@@ -138,5 +161,5 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-getDirections(startLocation, endLocation, bingKey);
+
 
