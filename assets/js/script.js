@@ -14,11 +14,14 @@ var latLong = "30.2672,-97.7431";
 var radius = 10;
 var today = new Date(); 
 
-document.getElementById("start").setAttribute("value",moment(today).format("YYYY-MM-DD"));
-document.getElementById("end").setAttribute("value",moment(today).format("YYYY-MM-DD"));
-var directionsEl = document.querySelector("#directions-section")
+//document.getElementById("start").setAttribute("value",moment(today).format("YYYY-MM-DD"));
+//document.getElementById("end").setAttribute("value",moment(today).format("YYYY-MM-DD"));
+
+var directionsEl = document.querySelector("#directions-section");
 var unitOfMesurment = "mi";
 var eventType = "Music";
+
+
 
 //Form Input/Button
 //Diane - Need to make sure these ID's match HTML
@@ -48,14 +51,64 @@ submitButton.addEventListener("click",function(event){
     //eventType = eventTypeInput.value; //DONT SEE MATCHING ITEM ON FORM
 
     //Forms Start locations based on user input
-    startLocation = streetAdress + ", " + city + ", " + state;
+    startLocation = streetAdress + "," + " SanAntonio," + state;//Hard coded for test
+    var startURL = convertString(startLocation);
+    console.log("new String = "+startLocation);
 
     //Converts Address to latitude & longitude
+    var positionStackKey = "5a8b007419bd2956c0662898bcf2606b"
+    var positionStackURL = "http://api.positionstack.com/v1/forward?access_key=" + positionStackKey + "&query=" + startURL
+    console.log(positionStackURL);
+
+    fetch(positionStackURL)
+        .then(function (response) {
+            // request was successful
+            if (response.ok) {
+                response.json().then(function (data) {
+                    console.log("Calling Bing LAT LONG" + data);
+                })
+
+            } else {
+                alert("Error: " + response.statusText);
+            }
+        })
+        .catch(function (error) {
+            alert("Unable to connect to Bing");
+        });
+
+
     
 
     //Calls findEvents
     findEvents(latLong, tmKey, radius);
 });
+
+var convertString = function(oldString){
+    var newString;
+    var newI = 0;
+    console.log("inside convert String");
+
+    for (var i = 0; i< oldString.length; i++) {
+        console.log("Old string " + oldString[i]);
+        if(oldString[i] == ' '){
+            newString[newI] = '%';
+            console.log("New =" + newString[newI]);
+            newI ++;
+            newString[newI] = '2';
+            console.log("New =" + newString[newI]);
+            newI ++;
+            newString[newI] = '0';
+            console.log("New =" + newString[newI]);
+            newI ++;
+            
+        }
+        else{
+            newString[newI] = oldString[i];
+            newI++;
+        }
+    }
+    return newString;
+}
 
 
 var getDirections = function (startLocation, endLocation, bingKey) {
