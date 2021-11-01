@@ -7,8 +7,7 @@ var startLocation = "SanAntonio,TX";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
-var postalCode = "11217";
-var latLong = "30.2672,-97.7431";
+// var latLong = "30.2672,-97.7431";
 var today = new Date();
 var eventCardsEl = document.querySelector("#event-cards")
 
@@ -32,16 +31,18 @@ var radiusInput = document.querySelector("#mileage");
 var startDateInput = document.querySelector("#start");
 var endDateInput = document.querySelector("#end");
 //var eventTypeInput = document.querySelector("#event-type"); //DONT SEE THIS ON THE FORM
+var whateverbutton = document.querySelector("#whatever")
 
-
-
+whateverbutton.addEventListener("click", function (event) {
+    console.log(cityInput.value)
+})
 //Form Event Listener - Saves user input
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
 
     //Saves user input into locat & global variables
     var streetAddress = streetAddressInput.value;
-    var city = cityInput.vaule;
+    var city = cityInput.value;
     var state = stateInput.value;
     var radius = radiusInput.value;
     //var unitOfMesurment = unitInput.value; //Dont need? we are in the USA
@@ -66,7 +67,8 @@ submitButton.addEventListener("click", function (event) {
             if (response.ok) {
                 response.json().then(function (data) {
                     latLong = data['data'][0]['latitude'] + "," + data['data'][0]['longitude'];
-
+                    console.log(latLong)
+                    findEvents(latLong, tmKey, radius);
                 })
 
             } else {
@@ -78,8 +80,7 @@ submitButton.addEventListener("click", function (event) {
         });
 
     //Calls findEvents
-    console.log(latLong)
-    findEvents(latLong, tmKey, radius);
+
 });
 
 
@@ -156,6 +157,7 @@ var findEvents = function (latLong, tmKey, radius) {
                         }
 
                         var eventItemEl = document.createElement("ul");
+                        eventItemEl.classList.add("event-card")
                         eventItemEl.innerHTML = "<li>Artist: " + eventObj['artist-name'] + '</li><li>Venue: ' + eventObj['venue-name'] + '</li><li>Date: '
                             + eventObj['date'] + '</li><li>URL: ' + eventObj['url'] + '</li><li>Address: ' + eventObj['address'] + "</li><br>";
                         eventCardsEl.appendChild(eventItemEl);
@@ -186,5 +188,5 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-findEvents(latLong, tmKey, 25)
+//findEvents(latLong, tmKey, 25)
 getDirections(startLocation, endLocation, bingKey)
