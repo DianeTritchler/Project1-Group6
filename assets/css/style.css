@@ -18,4 +18,10 @@ footer{
 
 #event-cards{
     margin:20px;
+    border: solid 1px;
+}
+
+#wish-list{
+    margin:20px;
+    border: solid 2px;
 }
