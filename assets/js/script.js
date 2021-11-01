@@ -10,6 +10,7 @@ var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
 var austinLatLong = "30.2672,-97.7431";
 var today = new Date();
 var eventCardsEl = document.querySelector("#event-cards")
+var wishListEl = document.querySelector("#wish-list")
 
 //Set the Form Date to Today Date
 document.getElementById("start").setAttribute("value", moment(today).format("YYYY-MM-DD"));
@@ -79,12 +80,86 @@ submitButton.addEventListener("click", function (event) {
 
 });
 
+var loadFavs = function () {
+    try {
+        favsArray = JSON.parse(localStorage.getItem("favs"));
+        favsCounter = 0;
+    }
+
+    // if nothing in localStorage, create a new object to track all favorites
+    catch {
+        favsArray = [];
+        favsCounter = 0;
+    }
+    if (favsArray.length > 0) {
+        favsCounter = favsArray.length
+        for (i = 0; i < favsArray.length; i++) {
+            console.log(favsArray)
+            var wishListUlEl = document.createElement("ul");
+            wishListUlEl.setAttribute('id', favsArray[i]['favid'])
+            wishListUlEl.innerHTML = ("<li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
+                + "</li><li>" + favsArray[i]['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
+            wishListEl.appendChild(wishListUlEl)
+        }
+
+    }
+
+
+
+};
+
+var saveFavToLocal = function (artist, date, url) {
+
+    var favObj = {
+        "artist": artist,
+        "date": date,
+        "url": url,
+        "favid": favsCounter
+    };
+    console.log(favObj)
+    favsArray.push(favObj);
+    favsArray = JSON.stringify(favsArray);
+    localStorage.setItem("favs", favsArray);
+    favsArray = JSON.parse(favsArray);
+    favsCounter++
+
+}
+
 
 eventCardsEl.addEventListener("click", favoriteListener);
 function favoriteListener(event) {
     var element = event.target;
     if (element.classList.contains("favorite")) {
-        console.log("favorite button clicked");
+        var eventCardPar = element.parentElement;
+        var eventCardChildren = eventCardPar.children;
+        var favArtist = eventCardChildren[0]['innerText'];
+        var favUrl = eventCardChildren[3]['innerHTML'];
+        var favDate = eventCardChildren[2]['innerText'];
+        saveFavToLocal(favArtist, favDate, favUrl)
+        console.log(eventCardChildren);
+        //console.log("favorite button clicked");
+    }
+}
+
+wishListEl.addEventListener("click", deleteListener);
+function deleteListener(event) {
+    var deleteButtonClick = event.target;
+    if (deleteButtonClick.classList.contains("delete-btn")) {
+        favToDelete = deleteButtonClick.parentElement.parentElement;
+        favToDeleteId = favToDelete.getAttribute('id')
+        favToDelete.remove()
+        for (i = 0; i < favsArray.length; i++) {
+            if (favsArray[i]['favid'] == favToDeleteId) {
+                favsArray = favsArray.filter(function (item) {
+                    return item !== favsArray[i]
+                });
+                favsArray = JSON.stringify(favsArray);
+                localStorage.setItem("favs", favsArray);
+                favsArray = JSON.parse(favsArray)
+            }
+        }
+
+        console.log("delete button clicked")
     }
 }
 
@@ -170,8 +245,8 @@ var findEvents = function (latLong, tmKey, radius) {
                         var eventItemEl = document.createElement("ul");
                         eventItemEl.classList.add("event-card")
                         eventItemEl.setAttribute('id', eventObj['event-id'])
-                        eventItemEl.innerHTML = "<li><h2>Artist: " + eventObj['artist-name'] + '</h2></li><li>Venue: ' + eventObj['venue-name'] + '</li><li>Date: '
-                            + eventObj['date'] + '</li><li>URL: ' + eventObj['url'] + '</li><li>Address: ' + eventObj['address'] +
+                        eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
+                            + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
                             "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
                         eventCardsEl.appendChild(eventItemEl);
 
@@ -200,6 +275,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-
+loadFavs()
 findEvents(austinLatLong, tmKey, 25)
 getDirections(startLocation, endLocation, bingKey)
