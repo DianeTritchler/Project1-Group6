@@ -7,7 +7,7 @@ var startLocation = "SanAntonio,TX";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
-// var latLong = "30.2672,-97.7431";
+var austinLatLong = "30.2672,-97.7431";
 var today = new Date();
 var eventCardsEl = document.querySelector("#event-cards")
 
@@ -31,11 +31,7 @@ var radiusInput = document.querySelector("#mileage");
 var startDateInput = document.querySelector("#start");
 var endDateInput = document.querySelector("#end");
 //var eventTypeInput = document.querySelector("#event-type"); //DONT SEE THIS ON THE FORM
-var whateverbutton = document.querySelector("#whatever")
 
-whateverbutton.addEventListener("click", function (event) {
-    console.log(cityInput.value)
-})
 //Form Event Listener - Saves user input
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
@@ -52,7 +48,7 @@ submitButton.addEventListener("click", function (event) {
 
     //Forms Start locations based on user input
     startLocation = streetAddress + ", " + city + ", " + state;
-    console.log("start locatio " + startLocation);
+    console.log("start location " + startLocation);
 
     //Converts Starting Location to API Readable format
     var startURL = startLocation.replace(/ /g, '%20');
@@ -144,8 +140,11 @@ var findEvents = function (latLong, tmKey, radius) {
             if (response.ok) {
                 response.json().then(function (data) {
                     eventInfo = data['_embedded']['events'];
+                    idCounter = 0
                     for (var i = 0; i < eventInfo.length; i++) {
+                        idCounter++
                         var eventObj = {
+                            'event-id': 'event-card-' + idCounter,
                             'artist-name': eventInfo[i]['name'],
                             'venue-name': eventInfo[i]['_embedded']['venues'][0]['name'],
                             'date': eventInfo[i]['dates']['start']['localDate'],
@@ -156,10 +155,13 @@ var findEvents = function (latLong, tmKey, radius) {
 
                         }
 
+
                         var eventItemEl = document.createElement("ul");
                         eventItemEl.classList.add("event-card")
-                        eventItemEl.innerHTML = "<li>Artist: " + eventObj['artist-name'] + '</li><li>Venue: ' + eventObj['venue-name'] + '</li><li>Date: '
-                            + eventObj['date'] + '</li><li>URL: ' + eventObj['url'] + '</li><li>Address: ' + eventObj['address'] + "</li><br>";
+                        eventItemEl.setAttribute('id', eventObj['event-id'])
+                        eventItemEl.innerHTML = "<li><h2>Artist: " + eventObj['artist-name'] + '</h2></li><li>Venue: ' + eventObj['venue-name'] + '</li><li>Date: '
+                            + eventObj['date'] + '</li><li>URL: ' + eventObj['url'] + '</li><li>Address: ' + eventObj['address'] +
+                            "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
                         eventCardsEl.appendChild(eventItemEl);
 
                     }
@@ -188,5 +190,5 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-//findEvents(latLong, tmKey, 25)
+findEvents(austinLatLong, tmKey, 25)
 getDirections(startLocation, endLocation, bingKey)
