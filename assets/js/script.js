@@ -94,7 +94,7 @@ var loadFavs = function () {
     if (favsArray.length > 0) {
         favsCounter = favsArray.length
         for (i = 0; i < favsArray.length; i++) {
-            console.log(favsArray)
+            //console.log(favsArray)
             var wishListUlEl = document.createElement("ul");
             wishListUlEl.setAttribute('id', favsArray[i]['favid'])
             wishListUlEl.innerHTML = ("<li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
@@ -116,7 +116,7 @@ var saveFavToLocal = function (artist, date, url) {
         "url": url,
         "favid": favsCounter
     };
-    console.log(favObj)
+    //console.log(favObj)
     favsArray.push(favObj);
     favsArray = JSON.stringify(favsArray);
     localStorage.setItem("favs", favsArray);
@@ -136,7 +136,7 @@ function favoriteListener(event) {
         var favUrl = eventCardChildren[3]['innerHTML'];
         var favDate = eventCardChildren[2]['innerText'];
         saveFavToLocal(favArtist, favDate, favUrl)
-        console.log(eventCardChildren);
+        //console.log(eventCardChildren);
         //console.log("favorite button clicked");
     }
 }
