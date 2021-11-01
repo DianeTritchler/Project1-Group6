@@ -80,7 +80,21 @@ submitButton.addEventListener("click", function (event) {
 });
 
 
+eventCardsEl.addEventListener("click", favoriteListener);
+function favoriteListener(event) {
+    var element = event.target;
+    if (element.classList.contains("favorite")) {
+        console.log("favorite button clicked");
+    }
+}
 
+eventCardsEl.addEventListener("click", directionsListener);
+function directionsListener(event) {
+    var element = event.target;
+    if (element.classList.contains("directions")) {
+        console.log("directions button clicked");
+    }
+}
 
 
 
