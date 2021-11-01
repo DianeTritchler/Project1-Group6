@@ -96,9 +96,6 @@ function directionsListener(event) {
     }
 }
 
-
-
-
 var getDirections = function (startLocation, endLocation, bingKey) {
     // format the bing api url
     var directionArray = [];
