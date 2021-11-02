@@ -214,10 +214,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
     var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
         "&radius=" + radius + "&apikey=" + tmKey;
-    var eventObjList = [];
-
-
-
     console.log(tmUrl)
 
 
@@ -226,6 +222,8 @@ var findEvents = function (latLong, tmKey, radius) {
             if (response.ok) {
                 response.json().then(function (data) {
                     eventInfo = data['_embedded']['events'];
+
+
                     idCounter = 0
                     for (var i = 0; i < eventInfo.length; i++) {
                         idCounter++
@@ -239,7 +237,8 @@ var findEvents = function (latLong, tmKey, radius) {
                             'url': eventInfo[i]['url'],
                             'address': eventInfo[i]['_embedded']['venues'][0]['address']['line1'] + ' ' +
                                 eventInfo[i]['_embedded']['venues'][0]['city']['name'] + ' ' +
-                                eventInfo[i]['_embedded']['venues'][0]['state']['stateCode']
+                                eventInfo[i]['_embedded']['venues'][0]['state']['stateCode'],
+                            'img-url': eventInfo[i]['images'][0]['url']
 
                         }
 
@@ -259,15 +258,7 @@ var findEvents = function (latLong, tmKey, radius) {
 
                 // eventObjList.JSON.parse(eventObjList)
 
-                for (var i = 0; i < eventObjList.length; i++) {
-                    console.log(eventObjList[i])
-                    var eventItemEl = document.createElement("li");
-                    eventItemEl.textContent = eventObjList[i];
 
-                    eventCardsEl.appendChild(eventItemEl);
-
-
-                }
             } else {
                 alert("Error: " + response.statusText);
             }
