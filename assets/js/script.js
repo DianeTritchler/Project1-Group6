@@ -229,6 +229,8 @@ var findEvents = function (latLong, tmKey, radius) {
                     idCounter = 0
                     for (var i = 0; i < eventInfo.length; i++) {
                         idCounter++
+
+
                         var eventObj = {
                             'event-id': 'event-card-' + idCounter,
                             'artist-name': eventInfo[i]['name'],
@@ -241,14 +243,15 @@ var findEvents = function (latLong, tmKey, radius) {
 
                         }
 
+                       
 
-                        var eventItemEl = document.createElement("ul");
-                        eventItemEl.classList.add("event-card")
-                        eventItemEl.setAttribute('id', eventObj['event-id'])
-                        eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
-                            + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
-                            "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
-                        eventCardsEl.appendChild(eventItemEl);
+                        // var eventItemEl = document.createElement("ul");
+                        // eventItemEl.classList.add("event-card")
+                        // eventItemEl.setAttribute('id', eventObj['event-id'])
+                        // eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
+                        //     + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
+                        //     "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
+                        // eventCardsEl.appendChild(eventItemEl);
 
                     }
 
@@ -262,6 +265,7 @@ var findEvents = function (latLong, tmKey, radius) {
                     eventItemEl.textContent = eventObjList[i];
 
                     eventCardsEl.appendChild(eventItemEl);
+
 
                 }
             } else {
