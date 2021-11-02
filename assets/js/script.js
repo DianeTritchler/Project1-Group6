@@ -1,29 +1,22 @@
 
-
-
 //Variables
 //Diane - Changed start/end Date names, Added eventType
-var startLocation = "San Antonio, TX";
+var startLocation = "SanAntonio,TX";
 var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
-var postalCode = "11217";
-var latLong = "30.2672,-97.7431";
-var radius = 10;
+var austinLatLong = "30.2672,-97.7431";
+var today = new Date();
+var eventCardsEl = document.querySelector("#event-cards")
+var wishListEl = document.querySelector("#wish-list")
 
+//Set the Form Date to Today Date
+document.getElementById("start").setAttribute("value", moment(today).format("YYYY-MM-DD"));
+document.getElementById("end").setAttribute("value", moment(today).format("YYYY-MM-DD"));
 
-
-var directionsEl = document.querySelector("#directions-section")
-var unitOfMesurment = "mi";
+var directionsEl = document.querySelector("#directions-section");
 var eventType = "Music";
 
-//mobile menu
-var burger = document.querySelector("#burger");
-var navBar = document.querySelector("#nav-links");
-
-burger.addEventListener('click', () => {
-    navBar.classList.toggle('is-active');
-});
 
 
 //Form Input/Button
@@ -38,37 +31,150 @@ var startDateInput = document.querySelector("#start");
 var endDateInput = document.querySelector("#end");
 //var eventTypeInput = document.querySelector("#event-type"); //DONT SEE THIS ON THE FORM
 
-
 //Form Event Listener - Saves user input
-submitButton.addEventListener("click",function(event){
+submitButton.addEventListener("click", function (event) {
     event.preventDefault();
-    
+
     //Saves user input into locat & global variables
-    var streetAdress = streetAddressInput.value;
-    var city = cityInput.vaule;
+    var streetAddress = streetAddressInput.value;
+    var city = cityInput.value;
     var state = stateInput.value;
-    radius = radiusInput.value; 
-    //unitOfMesurment = unitInput.value; //Dont need? we are in the USA
-    startDate = startDateInput.value;
-    endDate = endDateInput.value;
+    var radius = radiusInput.value;
+    //var unitOfMesurment = unitInput.value; //Dont need? we are in the USA
+    var startDate = startDateInput.value;
+    var endDate = endDateInput.value;
     //eventType = eventTypeInput.value; //DONT SEE MATCHING ITEM ON FORM
 
     //Forms Start locations based on user input
-    startLocation = streetAdress + ", " + city + ", " + state;
+    startLocation = streetAddress + ", " + city + ", " + state;
+    console.log("start location " + startLocation);
+
+    //Converts Starting Location to API Readable format
+    var startURL = startLocation.replace(/ /g, '%20');
 
     //Converts Address to latitude & longitude
-    
+
+    var positionStackKey = "5a8b007419bd2956c0662898bcf2606b"
+    var positionStackURL = "http://api.positionstack.com/v1/forward?access_key=" + positionStackKey + "&query=" + startURL;
+
+    fetch(positionStackURL)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    latLong = data['data'][0]['latitude'] + "," + data['data'][0]['longitude'];
+                    console.log(latLong)
+                    findEvents(latLong, tmKey, radius);
+                })
+
+            } else {
+                alert("Error: " + response.statusText);
+            }
+        })
+        .catch(function (error) {
+            alert("Unable to connect to latlong API");
+        });
 
     //Calls findEvents
-    findEvents(latLong, tmKey, radius);
+
 });
 
+var loadFavs = function () {
+    try {
+        favsArray = JSON.parse(localStorage.getItem("favs"));
+        favsCounter = 0;
+    }
+
+    // if nothing in localStorage, create a new object to track all favorites
+    catch {
+        favsArray = [];
+        favsCounter = 0;
+    }
+    if (favsArray.length > 0) {
+        favsCounter = favsArray.length
+        for (i = 0; i < favsArray.length; i++) {
+            //console.log(favsArray)
+            var wishListUlEl = document.createElement("ul");
+            wishListUlEl.setAttribute('id', favsArray[i]['favid'])
+            wishListUlEl.innerHTML = ("<li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
+                + "</li><li>" + favsArray[i]['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
+            wishListEl.appendChild(wishListUlEl)
+        }
+
+    }
+
+
+
+};
+
+var saveFavToLocal = function (artist, date, url) {
+
+    var favObj = {
+        "artist": artist,
+        "date": date,
+        "url": url,
+        "favid": favsCounter
+    };
+    //console.log(favObj)
+    favsArray.push(favObj);
+    favsArray = JSON.stringify(favsArray);
+    localStorage.setItem("favs", favsArray);
+    favsArray = JSON.parse(favsArray);
+    favsCounter++
+
+}
+
+
+eventCardsEl.addEventListener("click", favoriteListener);
+function favoriteListener(event) {
+    var element = event.target;
+    if (element.classList.contains("favorite")) {
+        var eventCardPar = element.parentElement;
+        var eventCardChildren = eventCardPar.children;
+        var favArtist = eventCardChildren[0]['innerText'];
+        var favUrl = eventCardChildren[3]['innerHTML'];
+        var favDate = eventCardChildren[2]['innerText'];
+        saveFavToLocal(favArtist, favDate, favUrl)
+        //console.log(eventCardChildren);
+        //console.log("favorite button clicked");
+    }
+}
+
+wishListEl.addEventListener("click", deleteListener);
+function deleteListener(event) {
+    var deleteButtonClick = event.target;
+    if (deleteButtonClick.classList.contains("delete-btn")) {
+        favToDelete = deleteButtonClick.parentElement.parentElement;
+        favToDeleteId = favToDelete.getAttribute('id')
+        favToDelete.remove()
+        for (i = 0; i < favsArray.length; i++) {
+            if (favsArray[i]['favid'] == favToDeleteId) {
+                favsArray = favsArray.filter(function (item) {
+                    return item !== favsArray[i]
+                });
+                favsArray = JSON.stringify(favsArray);
+                localStorage.setItem("favs", favsArray);
+                favsArray = JSON.parse(favsArray)
+            }
+        }
+
+        console.log("delete button clicked")
+    }
+}
+
+eventCardsEl.addEventListener("click", directionsListener);
+function directionsListener(event) {
+    var element = event.target;
+    if (element.classList.contains("directions")) {
+        console.log("directions button clicked");
+    }
+}
 
 var getDirections = function (startLocation, endLocation, bingKey) {
     // format the bing api url
     var directionArray = [];
     var bingUrl = "http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=" + startLocation + "&waypoint.2=" + endLocation +
         "&key=" + bingKey;
+
 
     // make a get request to url
     fetch(bingUrl)
@@ -82,7 +188,7 @@ var getDirections = function (startLocation, endLocation, bingKey) {
                         directionArray.push(directionsList[i]['instruction']['text'])
 
                     }
-                    //console.log(directionArray)
+
                     for (var i = 0; i < directionArray.length; i++) {
                         var listItemEl = document.createElement("li");
                         listItemEl.textContent = directionArray[i];
@@ -106,10 +212,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
     var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
         "&radius=" + radius + "&apikey=" + tmKey;
-    var eventObjList = [];
-
- 
-
     console.log(tmUrl)
 
 
@@ -117,22 +219,41 @@ var findEvents = function (latLong, tmKey, radius) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data)
                     eventInfo = data['_embedded']['events'];
+
+
+                    idCounter = 0
                     for (var i = 0; i < eventInfo.length; i++) {
+                        idCounter++
                         var eventObj = {
-                            'name': eventInfo[i]['name'],
+                            'event-id': 'event-card-' + idCounter,
+                            'artist-name': eventInfo[i]['name'],
+                            'venue-name': eventInfo[i]['_embedded']['venues'][0]['name'],
                             'date': eventInfo[i]['dates']['start']['localDate'],
                             'url': eventInfo[i]['url'],
                             'address': eventInfo[i]['_embedded']['venues'][0]['address']['line1'] + ' ' +
                                 eventInfo[i]['_embedded']['venues'][0]['city']['name'] + ' ' +
-                                eventInfo[i]['_embedded']['venues'][0]['state']['stateCode']
+                                eventInfo[i]['_embedded']['venues'][0]['state']['stateCode'],
+                            'img-url': eventInfo[i]['images'][0]['url']
 
                         }
-                        eventObjList.push(eventObj)
+
+
+                        var eventItemEl = document.createElement("ul");
+                        eventItemEl.classList.add("event-card")
+                        eventItemEl.setAttribute('id', eventObj['event-id'])
+                        eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
+                            + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
+                            "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
+                        eventCardsEl.appendChild(eventItemEl);
+
                     }
-                    console.log(eventObjList)
+
                 })
+
+                // eventObjList.JSON.parse(eventObjList)
+
+
             } else {
                 alert("Error: " + response.statusText);
             }
@@ -144,5 +265,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-getDirections(startLocation, endLocation, bingKey);
-
+loadFavs()
+findEvents(austinLatLong, tmKey, 25)
+getDirections(startLocation, endLocation, bingKey)
