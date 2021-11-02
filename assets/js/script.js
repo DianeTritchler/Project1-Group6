@@ -19,6 +19,19 @@ burger.addEventListener('click', () => {
     navBar.classList.toggle('is-active');
 });
 
+//modal
+var newsBtn = document.querySelector("#newsBtn");
+var modalBackground = document.querySelector(".modal-background");
+var modal = document.querySelector(".modal");
+
+newsBtn.addEventListener("click", ()=> {
+    modal.classList.add("is-active");
+});
+
+modalBackground.addEventListener("click", () => {
+    modal.classList.remove("is-active");
+}); 
+
 
 
 //Form Input/Button

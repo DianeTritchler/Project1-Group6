@@ -112,7 +112,7 @@
                             <label for="mileage"></label>
                             <input type="text" placeholder="Mileage" name="mileage" id="mileage" />
                             <br>
-                            <button class = "button is-link is-small is-inverted mt-2" type="submit" id="submitBtn">Submit</button>
+                            <button class = "button is-link is-small is-inverted is-rounded mt-2" type="submit" id="submitBtn">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -138,7 +138,18 @@
 
                 <!-- Column 3 -->
                 <div class = "column">
-                    
+                    <!-- message box -->
+                    <div class="message">
+                        <div class="message-header">
+                            <p>Share your thoughts on the most recent show!</p>
+                        </div>  
+                        <div class="message-body">
+                            <p>Want to join in on the conversation in our area? Sign up for our newsletter, where you can here other's reviews and hot takes of shows in yoru area</p>
+                            <button class = "button is-link is-small is-inverted is-rounded mt-2" type="submit" id="newsBtn"> Sign up! </button>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <!-- Column 4 -->
@@ -150,18 +161,22 @@
 
     </div>
 
-
-    <div id="event-cards">
-
-
+    <section class="section">
+        <div class="container">
+            <h3 class="title has-text-centered is-size-4">Add Shows To Your Wish List</h3>
+            <div class="columns mt-5 is-8 is-varialable">
+                <div class="column is-4-tablet is-3-desktop">
+                      <div class="card-image has-text-centered px-6" id="event-cards">
+                          <img src="" alt="">
+                    </div>
+                    <div class="card-content">
+                        
+                    </div>
+                </div>
+            </div>
+  
     </div>
-
-
-    <body>
-
-        <ul id="directions-section"></ul>
-
-    </body>
+</section>
 
     <div class="contact-form">
         <h3>Have any questions? Please contact us at: </h3>
@@ -184,6 +199,15 @@
         Made with love by Git To the Show.
     </footer>
 
+
+    <!-- modal-->
+    <div class="modal is-active">
+        <div class="modal-background">
+        <div class="modal-content has-background-white py-5 px-5">
+            <h3 class="title mb-6">Join the gitShow Newsletter!</h3>
+        </div>    
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
