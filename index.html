@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<body class="columns is-flex-direction-column is-fullheight-100vh">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,47 +7,52 @@
         <link rel="stylesheet" href="./assets/css/style.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
-        <title>Git To the Show!!</title>
+        <title>GitShow!!</title>
     </head>
+    
+<body class="columns is-flex-direction-column is-fullheight-100vh">
+    <nav class ="navbar has-shadow is-white">
+        <!-- log/brand -->
+        <div class="navbar-brand">
+            <a classs="nav-bar-item">
+                <img src ="./assets/css/gitshowlogo.png" alt="site logo" style="max-height: 75px" class="py-2 px-4">
+            </a>
+            <a class="navbar-burger" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+        </div>
 
-    <header class="column is-narrow">
-        <h1 class = "title has-text-centered">
-            Git To the Show: your home for local entertainment!
-        </h1>
-    </header>
+        <div class="navbar-menu" id="nav-links">
+            <div class="navbar-end px-5">
+                <a class="navbar-item">Wish List</a>
+                <a class="navbar-item">Contact</a>
+            </div>
+        </div>
 
-    <div class="column">
-        <section class="hero">
-            
-            <div class="columns">
-                <!-- Column 1 -->
-                <div class = "column">
+    </nav>
 
+    <section class="section">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-6-desktop">
+                    <h1 class="is-size-3-desktop title"> gitShow</h1>
+                    <h2 class="is-size-4-desktop subtitle">your source for local entertainment</h2>
+                    <p>Here at gitShow, we provide you with ability see upcoming shows in your area. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem, atque soluta. Velit iusto totam molestias deserunt voluptate nulla, iure quibusdam sequi animi? Illo neque soluta, est saepe incidunt repellendus illum.</p>
                 </div>
-                
-                <!-- Column 2 -->
-                <div class = "column">
-
-                </div>
-
-                <!-- Column 3 -->
-                <div class = "column">
-                    
-                </div>
-
-                <!-- Column 4 -->
-                <div class = "column">
-                    <div class = "box has-background-warning">
-                        <h2 class="has-text-centered">
+                <div class="column is-3-desktop">
+                    <div class = "box has-background-primary">
+                        <h2 class="is-size-6 has-text-weight-bold">
                             Please enter your location, choice of event, and target radius to see events in your local area.
                         </h2>
                         <form>
-                            <label for="street-address">Street Address</label>
+                            <label for="street-address"></label>
                             <input type="text" placeholder="Street Address" name="streetAddress" id="streetAddress" />
                             <br>
-                            <label for="city">City</label>
+                            <label for="city"></label>
                             <input type="text" placeholder="City" name="city" id="city" />
-                            <label for="state">State</label>
+                            <label for="state"></label>
                             <select id="state" name="state">
                                 <option value="AL">AL</option>
                                 <option value="AK">AK</option>
@@ -105,17 +107,42 @@
                                 <option value="WY">WY</option>
                             </select>
                             <br>
-                            <label for="mileage">Mileage</label>
+                            <label for="zip-code"></label>
+                            <input type="text" placeholder="Zip code" name="zip" id="zip-code"/>
+                            <label for="mileage"></label>
                             <input type="text" placeholder="Mileage" name="mileage" id="mileage" />
                             <br>
-                            <label for="start-date">Start date:</label>
-                            <input type="date" id="start" name="start-date">
-                            <br>
-                            <label for="end-date">End Date:</label>
-                            <input type="date" id="end" name="end-date">
-                            <button class = "button is-link is-small" type="submit" id="submitBtn">Submit</button>
+                            <button class = "button is-link is-small is-inverted mt-2" type="submit" id="submitBtn">Submit</button>
                         </form>
                     </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <div class="column">
+        <section class="hero">
+            
+            <div class="columns">
+                <!-- Column 1 -->
+                <div class = "column">
+
+                </div>
+                
+                <!-- Column 2 -->
+                <div class = "column">
+
+                </div>
+
+                <!-- Column 3 -->
+                <div class = "column">
+                    
+                </div>
+
+                <!-- Column 4 -->
+                <div class = "column mr-4">
                 </div>
                 
             </div>
