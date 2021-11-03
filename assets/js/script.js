@@ -3,7 +3,7 @@
 //Diane - Changed start/end Date names, Added eventType
 var startLocation = "SanAntonio,TX";
 var endLocation = "houston,tx";
-var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
+// var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
 var austinLatLong = "30.2672,-97.7431";
 var eventCardsEl = document.querySelector("#event-cards")
@@ -223,7 +223,7 @@ function directionsListener(event) {
     }
 }
 
-var getDirections = function (startLocation, endLocation, bingKey) {
+/* var getDirections = function (startLocation, endLocation, bingKey) {
     // format the bing api url
     var directionArray = [];
     var bingUrl = "http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=" + startLocation + "&waypoint.2=" + endLocation +
@@ -258,7 +258,7 @@ var getDirections = function (startLocation, endLocation, bingKey) {
         .catch(function (error) {
             alert("Unable to connect to Bing");
         });
-};
+}; */
 
 
 
