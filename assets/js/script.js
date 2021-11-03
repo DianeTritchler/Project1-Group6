@@ -23,12 +23,21 @@ burger.addEventListener('click', () => {
 var newsBtn = document.querySelector("#newsBtn");
 var modalBackground = document.querySelector(".modal-background");
 var modal = document.querySelector(".modal");
+var exitModal = document.querySelector("#exit-btn")
+var submitBtnEl = document.querySelector("#submit-btn")
 
-newsBtn.addEventListener("click", () => {
+submitBtnEl.addEventListener("click", (event) => {
+    event.preventDefault();
+})
+
+
+newsBtn.addEventListener("click", (event) => {
+    event.preventDefault();
     modal.classList.add("is-active");
 });
 
-modalBackground.addEventListener("click", () => {
+exitModal.addEventListener("click", (event) => {
+    event.preventDefault();
     modal.classList.remove("is-active");
 });
 
@@ -288,24 +297,24 @@ var findEvents = function (latLong, tmKey, radius) {
                         console.log(eventObj["img-url"])
                         //creates cards for each event
                         var sectionEl = document.createElement('section');
-                        sectionEl.className= "section";
-                        
+                        sectionEl.className = "section";
+
                         var divEl = document.createElement('div');
-                        divEl.className= "entertainment-cards"
+                        divEl.className = "entertainment-cards"
                         var anchorEl = document.createElement('a');
-                        anchorEl.className="href";
+                        anchorEl.className = "href";
 
                         var headerEl = document.createElement('h1');
-                       
+
                         var imageEl = document.createElement('img');
                         imageEl.src = eventObj["img-url"];
-                        imageEl.style.width="300px";
+                        imageEl.style.width = "300px";
 
-                        
+
 
                         sectionEl.appendChild(headerEl);
                         sectionEl.appendChild(imageEl);
-                        
+
                         // divEl.appendChild(anchorEl);   
 
 
@@ -314,7 +323,7 @@ var findEvents = function (latLong, tmKey, radius) {
                         eventItemEl.setAttribute('id', eventObj['event-id'])
                         eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
                             + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
-                            "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
+                            "</li> <button class = 'favorite'>Favorite</button><br><br>";
                         sectionEl.appendChild(eventItemEl);
                         eventCardsEl.appendChild(sectionEl);
 

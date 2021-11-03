@@ -162,6 +162,7 @@
 
                 <!-- Column 4 -->
                 <div id="wish-list" class="column mr-4">
+                    <h3 class="title is-size-4">Wish List</h3>
                 </div>
 
             </div>
@@ -172,8 +173,8 @@
     <section class="section">
         <div class="container">
             <h3 class="title has-text-centered is-size-4">Add Shows To Your Wish List</h3>
-            <div class="columns mt-5 is-8 is-varialable">
-                <div class="column is-4-tablet is-3-desktop">
+            <div class="columns mt-5 is-varialable">
+                <div class="column ">
                     <div class="card-image has-text-centered px-6" id="event-cards">
                         <img src="" alt="">
                     </div>
@@ -220,7 +221,7 @@
 
 
     <!-- modal-->
-    <div class="modal is-active">
+    <div class="modal">
         <div class="modal-background">
             <div class="modal-content has-background-white py-5 px-5">
                 <h3 class="title mb-6">Join the gitShow Newsletter!</h3>
@@ -246,8 +247,12 @@
                         </div>
                     </div>
                     <div class="mt-6 has-text-centered">
-                        <button class="button is-warning">Sign Up</button>
+                        <button id="submit-btn" class="button is-warning">Sign Up</button>
                     </div>
+                    <div class="mt-6 has-text-centered">
+                        <button id="exit-btn" class="button is-warning">Exit</button>
+                    </div>
+
                 </form>
             </div>
         </div>
