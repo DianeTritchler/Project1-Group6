@@ -301,4 +301,4 @@ var findEvents = function (latLong, tmKey, radius) {
 
 loadFavs()
 findEvents(austinLatLong, tmKey, 25)
-getDirections(startLocation, endLocation, bingKey)
+//getDirections(startLocation, endLocation, bingKey)
