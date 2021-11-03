@@ -77,7 +77,7 @@ submitButton.addEventListener("click", function (event) {
     //Converts Address to latitude & longitude
 
     var positionStackKey = "5a8b007419bd2956c0662898bcf2606b"
-    var positionStackURL = "http://api.positionstack.com/v1/forward?access_key=" + positionStackKey + "&query=" + startURL;
+    var positionStackURL = "https://api.positionstack.com/v1/forward?access_key=" + positionStackKey + "&query=" + startURL;
 
     fetch(positionStackURL)
         .then(function (response) {
