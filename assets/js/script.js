@@ -1,6 +1,4 @@
 
-
-
 //Variables
 //Diane - Changed start/end Date names, Added eventType
 var startLocation = "SanAntonio,TX";
@@ -8,16 +6,31 @@ var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
 var austinLatLong = "30.2672,-97.7431";
-var today = new Date();
 var eventCardsEl = document.querySelector("#event-cards")
 var wishListEl = document.querySelector("#wish-list")
-
-//Set the Form Date to Today Date
-document.getElementById("start").setAttribute("value", moment(today).format("YYYY-MM-DD"));
-document.getElementById("end").setAttribute("value", moment(today).format("YYYY-MM-DD"));
-
 var directionsEl = document.querySelector("#directions-section");
 var eventType = "Music";
+
+//mobile menu
+var burger = document.querySelector("#burger");
+var navBar = document.querySelector("#nav-links");
+
+burger.addEventListener('click', () => {
+    navBar.classList.toggle('is-active');
+});
+
+//modal
+var newsBtn = document.querySelector("#newsBtn");
+var modalBackground = document.querySelector(".modal-background");
+var modal = document.querySelector(".modal");
+
+newsBtn.addEventListener("click", ()=> {
+    modal.classList.add("is-active");
+});
+
+modalBackground.addEventListener("click", () => {
+    modal.classList.remove("is-active");
+}); 
 
 
 
@@ -64,7 +77,7 @@ submitButton.addEventListener("click", function (event) {
             if (response.ok) {
                 response.json().then(function (data) {
                     latLong = data['data'][0]['latitude'] + "," + data['data'][0]['longitude'];
-                    console.log(latLong)
+
                     findEvents(latLong, tmKey, radius);
                 })
 
@@ -83,6 +96,7 @@ submitButton.addEventListener("click", function (event) {
 var loadFavs = function () {
     try {
         favsArray = JSON.parse(localStorage.getItem("favs"));
+        if (!favsArray) { favsArray = [] }
         favsCounter = 0;
     }
 
@@ -97,6 +111,8 @@ var loadFavs = function () {
             //console.log(favsArray)
             var wishListUlEl = document.createElement("ul");
             wishListUlEl.setAttribute('id', favsArray[i]['favid'])
+            wishListUlEl.setAttribute('data-url', favsArray[i]['url'])
+            wishListUlEl.classList.add('favorite-item')
             wishListUlEl.innerHTML = ("<li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
                 + "</li><li>" + favsArray[i]['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
             wishListEl.appendChild(wishListUlEl)
@@ -116,13 +132,41 @@ var saveFavToLocal = function (artist, date, url) {
         "url": url,
         "favid": favsCounter
     };
-    //console.log(favObj)
+    var elements = document.querySelectorAll(".favorite-item")
+    console.log(elements)
+    if (elements.length > 0) {
+        console.log(elements)
+        var isAlreadyFav = false
+        for (i = 0; i < elements.length; i++) {
+            if (elements[i]['dataset']['url'] == favObj["url"]) {
+                window.alert("Already added to wish-list!")
+                var isAlreadyFav = true
+            }
+
+            //console.log(favObj)
+
+        }
+        if (!isAlreadyFav) {
+            addFav(favObj)
+        }
+    }
+    else {
+        addFav(favObj)
+    }
+}
+
+var addFav = function (favObj) {
     favsArray.push(favObj);
     favsArray = JSON.stringify(favsArray);
     localStorage.setItem("favs", favsArray);
     favsArray = JSON.parse(favsArray);
     favsCounter++
-
+    var wishListUlEl = document.createElement("ul");
+    wishListUlEl.setAttribute('id', favObj['favid'])
+    wishListUlEl.classList.add('favorite-item')
+    wishListUlEl.innerHTML = ("<li>" + favObj['artist'] + "</li><li>" + favObj['date']
+        + "</li><li>" + favObj['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
+    wishListEl.appendChild(wishListUlEl)
 }
 
 
@@ -138,6 +182,7 @@ function favoriteListener(event) {
         saveFavToLocal(favArtist, favDate, favUrl)
         //console.log(eventCardChildren);
         //console.log("favorite button clicked");
+        element.parentElement.remove();
     }
 }
 
@@ -159,7 +204,7 @@ function deleteListener(event) {
             }
         }
 
-        console.log("delete button clicked")
+
     }
 }
 
@@ -214,7 +259,7 @@ var findEvents = function (latLong, tmKey, radius) {
 
     var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
         "&radius=" + radius + "&apikey=" + tmKey;
-    console.log(tmUrl)
+
 
 
     fetch(tmUrl)
