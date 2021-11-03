@@ -24,13 +24,13 @@ var newsBtn = document.querySelector("#newsBtn");
 var modalBackground = document.querySelector(".modal-background");
 var modal = document.querySelector(".modal");
 
-newsBtn.addEventListener("click", ()=> {
+newsBtn.addEventListener("click", () => {
     modal.classList.add("is-active");
 });
 
 modalBackground.addEventListener("click", () => {
     modal.classList.remove("is-active");
-}); 
+});
 
 
 
@@ -56,8 +56,6 @@ submitButton.addEventListener("click", function (event) {
     var state = stateInput.value;
     var radius = radiusInput.value;
     //var unitOfMesurment = unitInput.value; //Dont need? we are in the USA
-    var startDate = startDateInput.value;
-    var endDate = endDateInput.value;
     //eventType = eventTypeInput.value; //DONT SEE MATCHING ITEM ON FORM
 
     //Forms Start locations based on user input
@@ -313,5 +311,5 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 loadFavs()
-findEvents(austinLatLong, tmKey, 25)
+//findEvents(austinLatLong, tmKey, 25)
 getDirections(startLocation, endLocation, bingKey)
