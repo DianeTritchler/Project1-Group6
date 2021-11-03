@@ -19,6 +19,13 @@ footer{
 #event-cards{
     margin:20px;
     border: solid 1px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.section {
+flex-basis: 20%;
+border: solid 1px;
 }
 
 #wish-list{

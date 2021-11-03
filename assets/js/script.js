@@ -287,15 +287,38 @@ var findEvents = function (latLong, tmKey, radius) {
 
                         }
 
-                       
+                        console.log(eventObj["img-url"])
+                        //creates cards for each event
+                        var sectionEl = document.createElement('section');
+                        sectionEl.className= "section";
+                        
+                        var divEl = document.createElement('div');
+                        divEl.className= "entertainment-cards"
+                        var anchorEl = document.createElement('a');
+                        anchorEl.className="href";
 
-                        // var eventItemEl = document.createElement("ul");
-                        // eventItemEl.classList.add("event-card")
-                        // eventItemEl.setAttribute('id', eventObj['event-id'])
-                        // eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
-                        //     + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
-                        //     "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
-                        // eventCardsEl.appendChild(eventItemEl);
+                        var headerEl = document.createElement('h1');
+                       
+                        var imageEl = document.createElement('img');
+                        imageEl.src = eventObj["img-url"];
+                        imageEl.style.width="300px";
+
+                        
+
+                        sectionEl.appendChild(headerEl);
+                        sectionEl.appendChild(imageEl);
+                        
+                        // divEl.appendChild(anchorEl);   
+
+
+                        var eventItemEl = document.createElement("ul");
+                        eventItemEl.classList.add("event-cards")
+                        eventItemEl.setAttribute('id', eventObj['event-id'])
+                        eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
+                            + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
+                            "</li> <button class = 'favorite'>Favorite</button><button class = 'directions'>Directions</button><br><br>";
+                        sectionEl.appendChild(eventItemEl);
+                        eventCardsEl.appendChild(sectionEl);
 
                     }
 
@@ -315,6 +338,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 
-loadFavs()
+// loadFavs()
 findEvents(austinLatLong, tmKey, 25)
 getDirections(startLocation, endLocation, bingKey)
