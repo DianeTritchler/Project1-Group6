@@ -1,6 +1,4 @@
 
-
-
 //Variables
 //Diane - Changed start/end Date names, Added eventType
 var startLocation = "SanAntonio,TX";
@@ -8,16 +6,31 @@ var endLocation = "houston,tx";
 var bingKey = "ArTyrXsq6UDCs9vBFWRd04jO4H8q8Zbf4lhLg8yC8ECyRdGwOn2GVd50DKlIaRWD";
 var tmKey = "19BJY9J622QFAQDhJQIFYeYXQPjGUQHU";
 var austinLatLong = "30.2672,-97.7431";
-var today = new Date();
 var eventCardsEl = document.querySelector("#event-cards")
 var wishListEl = document.querySelector("#wish-list")
-
-//Set the Form Date to Today Date
-document.getElementById("start").setAttribute("value", moment(today).format("YYYY-MM-DD"));
-document.getElementById("end").setAttribute("value", moment(today).format("YYYY-MM-DD"));
-
 var directionsEl = document.querySelector("#directions-section");
 var eventType = "Music";
+
+//mobile menu
+var burger = document.querySelector("#burger");
+var navBar = document.querySelector("#nav-links");
+
+burger.addEventListener('click', () => {
+    navBar.classList.toggle('is-active');
+});
+
+//modal
+var newsBtn = document.querySelector("#newsBtn");
+var modalBackground = document.querySelector(".modal-background");
+var modal = document.querySelector(".modal");
+
+newsBtn.addEventListener("click", ()=> {
+    modal.classList.add("is-active");
+});
+
+modalBackground.addEventListener("click", () => {
+    modal.classList.remove("is-active");
+}); 
 
 
 
