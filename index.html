@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="./assets/css/style.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
-        <title>GitShow!!</title>
-    </head>
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+    <title>GitShow!!</title>
+</head>
+
 <body class="columns is-flex-direction-column is-fullheight-100vh">
-    <nav class ="navbar has-shadow is-white">
+    <nav class="navbar has-shadow is-white">
         <!-- log/brand -->
         <div class="navbar-brand">
             <a classs="nav-bar-item">
-                <img src ="./assets/css/gitshowlogo.png" alt="site logo" style="max-height: 75px" class="py-2 px-4">
+                <img src="./assets/css/gitshowlogo.png" alt="site logo" style="max-height: 75px" class="py-2 px-4">
             </a>
             <a class="navbar-burger" id="burger">
                 <span></span>
@@ -39,12 +40,16 @@
                 <div class="column is-6-desktop">
                     <h1 class="is-size-3-desktop title"> gitShow</h1>
                     <h2 class="is-size-4-desktop subtitle">your source for local entertainment</h2>
-                    <p>Here at gitShow, we provide you with ability see upcoming shows in your area. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem, atque soluta. Velit iusto totam molestias deserunt voluptate nulla, iure quibusdam sequi animi? Illo neque soluta, est saepe incidunt repellendus illum.</p>
+                    <p>Here at gitShow, we provide you with ability see upcoming shows in your area. Lorem ipsum dolor
+                        sit, amet consectetur adipisicing elit. Quidem, atque soluta. Velit iusto totam molestias
+                        deserunt voluptate nulla, iure quibusdam sequi animi? Illo neque soluta, est saepe incidunt
+                        repellendus illum.</p>
                 </div>
                 <div class="column is-3-desktop">
-                    <div class = "box has-background-primary">
+                    <div class="box has-background-primary">
                         <h2 class="is-size-6 has-text-weight-bold">
-                            Please enter your location, choice of event, and target radius to see events in your local area.
+                            Please enter your location, choice of event, and target radius to see events in your local
+                            area.
                         </h2>
                         <form>
                             <label for="street-address"></label>
@@ -108,11 +113,12 @@
                             </select>
                             <br>
                             <label for="zip-code"></label>
-                            <input type="text" placeholder="Zip code" name="zip" id="zip-code"/>
+                            <input type="text" placeholder="Zip code" name="zip" id="zip-code" />
                             <label for="mileage"></label>
                             <input type="text" placeholder="Mileage" name="mileage" id="mileage" />
                             <br>
-                            <button class = "button is-link is-small is-inverted is-rounded mt-2" type="submit" id="submitBtn">Submit</button>
+                            <button class="button is-link is-small is-inverted is-rounded mt-2" type="submit"
+                                id="submitBtn">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -124,28 +130,30 @@
 
     <div class="column">
         <section class="hero">
-            
+
             <div class="columns">
                 <!-- Column 1 -->
-                <div class = "column">
+                <div class="column">
 
                 </div>
-                
+
                 <!-- Column 2 -->
-                <div class = "column">
+                <div class="column">
 
                 </div>
 
                 <!-- Column 3 -->
-                <div class = "column">
+                <div class="column">
                     <!-- message box -->
                     <div class="message">
                         <div class="message-header">
                             <p>Share your thoughts on the most recent show!</p>
-                        </div>  
+                        </div>
                         <div class="message-body">
-                            <p>Want to join in on the conversation in our area? Sign up for our newsletter, where you can here other's reviews and hot takes of shows in yoru area</p>
-                            <button class = "button is-link is-small is-inverted is-rounded mt-2" type="submit" id="newsBtn"> Sign up! </button>
+                            <p>Want to join in on the conversation in our area? Sign up for our newsletter, where you
+                                can here other's reviews and hot takes of shows in yoru area</p>
+                            <button class="button is-link is-small is-inverted is-rounded mt-2" type="submit"
+                                id="newsBtn"> Sign up! </button>
                         </div>
                     </div>
 
@@ -153,9 +161,9 @@
                 </div>
 
                 <!-- Column 4 -->
-                <div class = "column mr-4">
+                <div id="wish-list" class="column mr-4">
                 </div>
-                
+
             </div>
         </section>
 
@@ -166,17 +174,17 @@
             <h3 class="title has-text-centered is-size-4">Add Shows To Your Wish List</h3>
             <div class="columns mt-5 is-8 is-varialable">
                 <div class="column is-4-tablet is-3-desktop">
-                      <div class="card-image has-text-centered px-6" id="event-cards">
-                          <img src="" alt="">
+                    <div class="card-image has-text-centered px-6" id="event-cards">
+                        <img src="" alt="">
                     </div>
                     <div class="card-content">
-                        
+
                     </div>
                 </div>
             </div>
-  
-    </div>
-</section>
+
+        </div>
+    </section>
 
     <!-- footer-->
     <footer class="footer has-text-primary">
@@ -184,64 +192,64 @@
             <div class="columns is-mobile is-multiline">
                 <div class="column is-half-mobile is-one-quarter-desktop">
                     <h6 class="title is-6">Have questions? Please contacts us at:</h6>
-                        <ul>
-                            <li>P: (555.123.4567)</li>
-                            <li>E: <a href="mailto:info@gittoshow.io">info@gittoshow.io</a></li>
-                            <li>11928 Aitne Lane <br>
-                                Austin, TX <br>
-                                78725 <br>
-                         </li>
-                        </ul>
+                    <ul>
+                        <li>P: (555.123.4567)</li>
+                        <li>E: <a href="mailto:info@gittoshow.io">info@gittoshow.io</a></li>
+                        <li>11928 Aitne Lane <br>
+                            Austin, TX <br>
+                            78725 <br>
+                        </li>
+                    </ul>
                 </div>
                 <div class="column is-half-mobile is-one-quarter-desktop">
                     <h6 class="title is-6">Follow Us On Social Media:</h6>
-                        <ul>
-                            <li>Twitter</li>
-                            <li>Instagram</li>
-                            <li>Facebook</li>
-                        </ul>
+                    <ul>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Facebook</li>
+                    </ul>
                 </div>
             </div>
 
         </div>
-       <div class="content has-text-centered py-6">
-           <p>Made with Love by gitShow</p>
-           <p>Copyright 2021</p>
-       </div>
+        <div class="content has-text-centered py-6">
+            <p>Made with Love by gitShow</p>
+            <p>Copyright 2021</p>
+        </div>
     </footer>
 
 
     <!-- modal-->
     <div class="modal is-active">
         <div class="modal-background">
-        <div class="modal-content has-background-white py-5 px-5">
-            <h3 class="title mb-6">Join the gitShow Newsletter!</h3>
-            <form>
-                <div class="field">
-                    <label class="label"> Name </label>
-                    <div class="control">
-                        <input type="text" class="input" placeholder="Name">
+            <div class="modal-content has-background-white py-5 px-5">
+                <h3 class="title mb-6">Join the gitShow Newsletter!</h3>
+                <form>
+                    <div class="field">
+                        <label class="label"> Name </label>
+                        <div class="control">
+                            <input type="text" class="input" placeholder="Name">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label class="label"> E-mail </label>
-                    <div class="control">
-                        <input type="text" class="input" placeholder="E-mail">
+                    <div class="field">
+                        <label class="label"> E-mail </label>
+                        <div class="control">
+                            <input type="text" class="input" placeholder="E-mail">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            Please send me promotional materials and discounts to upcoming shows! 
-                        </label>
+                    <div class="field">
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                                Please send me promotional materials and discounts to upcoming shows!
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-6 has-text-centered">
-                    <button class="button is-warning">Sign Up</button>
-                </div>
-            </form>
-        </div>    
+                    <div class="mt-6 has-text-centered">
+                        <button class="button is-warning">Sign Up</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
