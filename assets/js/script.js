@@ -264,7 +264,7 @@ function directionsListener(event) {
 
 var findEvents = function (latLong, tmKey, radius) {
 
-    var tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
+    var tmUrl = "https://cors-anywhere.herokuapp.com/https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
         "&radius=" + radius + "&apikey=" + tmKey;
 
 
