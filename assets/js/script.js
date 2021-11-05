@@ -28,6 +28,27 @@ var submitBtnEl = document.querySelector("#submit-btn")
 
 submitBtnEl.addEventListener("click", (event) => {
     event.preventDefault();
+    //get the name 
+    var nameStorage = document.querySelector("#nameStorage").value;
+    //get the e-mail
+    var emailStorage = document.querySelector("#emailStorage").value;
+
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+     
+    if (!re.test(String(emailStorage).toLowerCase())) { 
+        alert("Please enter a valid e-mail address")
+        return
+        }
+
+    var promotionalStorage = document.querySelector("#checked").checked
+    //combine them
+    var combineData = {
+        nameStorage, emailStorage, promotionalStorage
+    };
+
+    //save to local storage 
+    localStorage.setItem("userInfo",JSON.stringify(combineData))
+    modal.classList.remove("is-active");
 })
 
 
