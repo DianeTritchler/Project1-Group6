@@ -51,13 +51,15 @@ var cityInput = document.querySelector("#city");
 var stateInput = document.querySelector("#state");
 var radiusInput = document.querySelector("#mileage");
 //var unitInput = document.querySelector("#unit"); // DONT SEE THIS ON THE FORM
-var startDateInput = document.querySelector("#start");
-var endDateInput = document.querySelector("#end");
 //var eventTypeInput = document.querySelector("#event-type"); //DONT SEE THIS ON THE FORM
 
 //Form Event Listener - Saves user input
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
+    startDateInput = document.querySelector("#start-date").value;
+    startDateInput = moment(startDateInput).format();
+    endDateInput = document.querySelector("#end-date").value;
+    endDateInput = moment(endDateInput).format()
 
     //Saves user input into locat & global variables
     var streetAddress = streetAddressInput.value;
@@ -85,7 +87,7 @@ submitButton.addEventListener("click", function (event) {
                 response.json().then(function (data) {
                     latLong = data['data'][0]['latitude'] + "," + data['data'][0]['longitude'];
 
-                    findEvents(latLong, tmKey, radius);
+                    findEvents(latLong, tmKey, radius, startDateInput, endDateInput);
                 })
 
             } else {
@@ -120,7 +122,7 @@ var loadFavs = function () {
             wishListUlEl.setAttribute('id', favsArray[i]['favid'])
             wishListUlEl.setAttribute('data-url', favsArray[i]['url'])
             wishListUlEl.classList.add('favorite-item')
-            wishListUlEl.innerHTML = ("<li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
+            wishListUlEl.innerHTML = ("<li><img src='" + favsArray[i]['imgSrc'] + "'width=300></img><li>" + favsArray[i]['artist'] + "</li><li>" + favsArray[i]['date']
                 + "</li><li>" + favsArray[i]['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
             wishListEl.appendChild(wishListUlEl)
         }
@@ -131,13 +133,14 @@ var loadFavs = function () {
 
 };
 
-var saveFavToLocal = function (artist, date, url) {
+var saveFavToLocal = function (artist, date, url, imgSrc) {
 
     var favObj = {
         "artist": artist,
         "date": date,
         "url": url,
-        "favid": favsCounter
+        "favid": favsCounter,
+        "imgSrc": imgSrc
     };
     var elements = document.querySelectorAll(".favorite-item")
     console.log(elements)
@@ -171,7 +174,7 @@ var addFav = function (favObj) {
     var wishListUlEl = document.createElement("ul");
     wishListUlEl.setAttribute('id', favObj['favid'])
     wishListUlEl.classList.add('favorite-item')
-    wishListUlEl.innerHTML = ("<li>" + favObj['artist'] + "</li><li>" + favObj['date']
+    wishListUlEl.innerHTML = ("<li><img src='" + favObj['imgSrc'] + "'width=300></img><li>" + favObj['artist'] + "</li><li>" + favObj['date']
         + "</li><li>" + favObj['url'] + "</li><li><button class='delete-btn'>delete</button><br><br>")
     wishListEl.appendChild(wishListUlEl)
 }
@@ -182,14 +185,17 @@ function favoriteListener(event) {
     var element = event.target;
     if (element.classList.contains("favorite")) {
         var eventCardPar = element.parentElement;
+        var eventCardGrandPar = eventCardPar.parentElement
         var eventCardChildren = eventCardPar.children;
-        var favArtist = eventCardChildren[0]['innerText'];
-        var favUrl = eventCardChildren[3]['innerHTML'];
-        var favDate = eventCardChildren[2]['innerText'];
-        saveFavToLocal(favArtist, favDate, favUrl)
-        //console.log(eventCardChildren);
+        var favImg = eventCardChildren[0].children[0]['currentSrc'];
+        var favUrl = eventCardChildren[4]['innerHTML'];
+        var favDate = eventCardChildren[3]['innerText'];
+        var favArtist = eventCardChildren[1]['innerText'];
+        saveFavToLocal(favArtist, favDate, favUrl, favImg)
+        console.log(eventCardChildren);
         //console.log("favorite button clicked");
         element.parentElement.remove();
+        eventCardGrandPar.remove()
     }
 }
 
@@ -215,57 +221,18 @@ function deleteListener(event) {
     }
 }
 
-eventCardsEl.addEventListener("click", directionsListener);
-function directionsListener(event) {
-    var element = event.target;
-    if (element.classList.contains("directions")) {
-        console.log("directions button clicked");
-    }
-}
-
-/* var getDirections = function (startLocation, endLocation, bingKey) {
-    // format the bing api url
-    var directionArray = [];
-    var bingUrl = "http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=" + startLocation + "&waypoint.2=" + endLocation +
-        "&key=" + bingKey;
-
-
-    // make a get request to url
-    fetch(bingUrl)
-        .then(function (response) {
-            // request was successful
-            if (response.ok) {
-                response.json().then(function (data) {
-                    var directionsList = (data['resourceSets'][0]['resources'][0]['routeLegs'][0]['itineraryItems'])
-
-                    for (i = 0; i < directionsList.length; i++) {
-                        directionArray.push(directionsList[i]['instruction']['text'])
-
-                    }
-
-                    for (var i = 0; i < directionArray.length; i++) {
-                        var listItemEl = document.createElement("li");
-                        listItemEl.textContent = directionArray[i];
-                        directionsEl.appendChild(listItemEl);
-
-                    }
-                })
-
-            } else {
-                alert("Error: " + response.statusText);
-            }
-        })
-        .catch(function (error) {
-            alert("Unable to connect to Bing");
-        });
-}; */
-
-
-
-var findEvents = function (latLong, tmKey, radius) {
+var findEvents = function (latLong, tmKey, radius, startDate, endDate) {
+    console.log(startDate)
 
     var tmUrl = "https://cors-anywhere.herokuapp.com/https://app.ticketmaster.com/discovery/v2/events.json?sort=date,asc&size=20&classificationName=music&latlong=" + latLong +
-        "&radius=" + radius + "&apikey=" + tmKey;
+        "&radius=" + radius + "&startDateTime=" + startDate + "&endDateTime=" + endDate + "&apikey=" + tmKey;
+
+    if (document.querySelectorAll('.event-cards-section')) {
+        var eventCardsToDelete = document.querySelectorAll('.event-cards-section');
+        for (i = 0; i < eventCardsToDelete.length; i++) {
+            eventCardsToDelete[i].remove()
+        }
+    }
 
 
 
@@ -294,34 +261,15 @@ var findEvents = function (latLong, tmKey, radius) {
 
                         }
 
-                        console.log(eventObj["img-url"])
+                        // console.log(eventObj["img-url"])
                         //creates cards for each event
                         var sectionEl = document.createElement('section');
-                        sectionEl.className = "section";
-
-                        var divEl = document.createElement('div');
-                        divEl.className = "entertainment-cards"
-                        var anchorEl = document.createElement('a');
-                        anchorEl.className = "href";
-
-                        var headerEl = document.createElement('h1');
-
-                        var imageEl = document.createElement('img');
-                        imageEl.src = eventObj["img-url"];
-                        imageEl.style.width = "300px";
-
-
-
-                        sectionEl.appendChild(headerEl);
-                        sectionEl.appendChild(imageEl);
-
-                        // divEl.appendChild(anchorEl);   
-
+                        sectionEl.className = "event-cards-section";
 
                         var eventItemEl = document.createElement("ul");
                         eventItemEl.classList.add("event-cards")
                         eventItemEl.setAttribute('id', eventObj['event-id'])
-                        eventItemEl.innerHTML = "<li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
+                        eventItemEl.innerHTML = "<li><img src ='" + eventObj['img-url'] + "'width =300></img></li><li><h2>" + eventObj['artist-name'] + '</h2></li><li>' + eventObj['venue-name'] + '</li><li>'
                             + eventObj['date'] + '</li><li><a href=' + eventObj['url'] + '>Click here for more info!</a></li><li>' + eventObj['address'] +
                             "</li> <button class = 'favorite'>Favorite</button><br><br>";
                         sectionEl.appendChild(eventItemEl);
@@ -347,6 +295,6 @@ var findEvents = function (latLong, tmKey, radius) {
 
 
 loadFavs()
-//findEvents(austinLatLong, tmKey, 25)
+// findEvents(austinLatLong, tmKey, 25, 12-25-2021, 12-25-2022)
 
 

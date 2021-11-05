@@ -23,6 +23,11 @@ footer{
     flex-wrap: wrap;
 }
 
+.event-cards-section {
+flex-basis: 20%;
+border: solid 1px;
+}
+
 .section {
 flex-basis: 20%;
 border: solid 1px;
