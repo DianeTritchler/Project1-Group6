@@ -1,3 +1,6 @@
+* body {
+    padding: 20px;
+}
 
 .is-fullheight-100vh{
     height: 100vh;
@@ -30,7 +33,7 @@ border: solid 1px;
 
 .section {
 flex-basis: 20%;
-border: solid 1px;
+/* border: solid 1px; */
 }
 
 #wish-list{
